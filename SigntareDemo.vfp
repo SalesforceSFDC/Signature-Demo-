@@ -1,0 +1,85 @@
+<apex:page tabStyle="Contact" controller="SignatureDemoController" showHeader="false" sidebar="false">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{!$Resource.sketch}" />
+    <apex:pageBlock title="Sample Aggrement" >
+        <apex:form id="frm">
+            <apex:actionFunction name="callingSubmit" action="{!submit}" reRender="frm">
+            </apex:actionFunction>
+            <apex:pageBlockSection columns="1" title="Terms & Conditions" collapsible="false">
+                <apex:outputText >
+                    Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern [business name]'s relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.
+                    <br />
+                    The term '[business name]' or 'us' or 'we' refers to the owner of the website whose registered office is [address]. Our company registration number is [company registration number and place of registration]. The term 'you' refers to the user or viewer of our website.
+                    <br />                    
+                    <span id="smallInitials">%SmallInitails%</span>
+                    <br/>
+                    The use of this website is subject to the following terms of use:
+                    <br />
+                    The content of the pages of this website is for your general information and use only. It is subject to change without notice.
+                    This website uses cookies to monitor browsing preferences. If you do allow cookies to be used, the following personal information may be stored by us for use by third parties: [insert list of information].
+                    Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or suitability of the information and materials found or offered on this website for any particular purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.
+                    Your use of any information or materials on this website is entirely at your own risk, for which we shall not be liable. It shall be your own responsibility to ensure that any products, services or information available through this website meet your specific requirements.
+                    This website contains material which is owned by or licensed to us. This material includes, but is not limited to, the design, layout, look, appearance and graphics. Reproduction is prohibited other than in accordance with the copyright notice, which forms part of these terms and conditions.
+                    All trade marks reproduced in this website which are not the property of, or licensed to, the operator are acknowledged on the website.
+                    Unauthorised use of this website may give rise to a claim for damages and/or be a criminal offence.<br/>
+                    From time to time this website may also include links to other websites. These links are provided for your convenience to provide further information. They do not signify that we endorse the website(s). We have no responsibility for the content of the linked website(s).
+                    Your use of this website and any dispute arising out of such use of the website is subject to the laws of England, Northern Ireland, Scotland and Wales.
+                    <br/><br/>
+                    <span style="float:right">
+                        <span id="initialBig">%biginitials%</span>
+                        <br />
+                        <span id="conName">Customer Initials</span>
+                    </span>
+                    
+                </apex:outputText>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="2" title="Initials" collapsible="false">
+                <apex:outputPanel >
+                    <div>    
+                        <Span><b>Big Initials </b></span>
+                        <button style="margin-left:28px;height:30px;width:100px" onclick="applyImage( 'intial1', 'initialBig', 80 );return false;">Apply</button>
+                        <button style="margin-left:10px;height:30px;width:100px" onclick="clearSketch( 'intial1' );return false;">Clear</button> <br/>
+                        <canvas id="intial1" style="border:2px solid; border-radius:0px 0px 10px 10px;background:white; border-color:lightgray"></canvas>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel >
+                    <div>    
+                        <Span><b>Small Initials </b></span>
+                        <button style="margin-left:15px;height:30px;width:100px" onclick="applyImage( 'intial2', 'smallInitials', 40 );return false;">Apply</button>
+                        <button style="margin-left:10px;height:30px;width:100px" onclick="clearSketch('intial2');return false;">Clear</button> <br/>
+                        <canvas id="intial2" style="border:2px solid; border-radius:0px 0px 10px 10px;background:white; border-color:lightgray"></canvas>
+                    </div>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+            <input type="button" value="Submit" style="float:right;margin-right:10%" onclick="submitAggrement()"/>
+            <br/><br/>
+            <apex:inputHidden id="signIni" value="{!initial1}"/>
+            <apex:inputHidden id="signIni2" value="{!initial2}"/>
+            
+        </apex:form>
+    </apex:pageBlock>
+    <script type="text/javascript">
+      $(document).ready(function(){
+          $('#intial1').sketch();
+          $('#intial2').sketch();
+      });   
+      function clearSketch( cvId ){          
+          $('#' + cvId).replaceWith('<canvas id="' + cvId + '" style="border:2px solid; border-radius:10px;background:white; border-color:lightgray"></canvas>');
+          $('#' + cvId).sketch();
+      }     
+      function applyImage( cvId, compId, sz ){
+          var image = new Image();
+          image.id = "pic"
+          image.src = document.getElementById(cvId).toDataURL();
+          console.log( document.getElementById(cvId).toDataURL() );
+          image.height = sz;
+          $('#' + compId ).html(image); 
+      }
+      function submitAggrement(){
+          $('[id$="signIni"]').val(document.getElementById('intial1').toDataURL());
+          $('[id$="signIni2"]').val(document.getElementById('intial2').toDataURL());
+          callingSubmit();
+          return false;
+      }
+    </script>
+</apex:page>
